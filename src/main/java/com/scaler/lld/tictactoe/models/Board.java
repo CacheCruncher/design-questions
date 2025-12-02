@@ -1,11 +1,10 @@
 package com.scaler.lld.tictactoe.models;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public class Board {
