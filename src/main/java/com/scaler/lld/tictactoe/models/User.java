@@ -3,10 +3,10 @@ package com.scaler.lld.tictactoe.models;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+
+// Intrinsic state - which wil not change
 public class User {
-    private String username;
+    private String name;
     private String email;
     private String photo;
 }

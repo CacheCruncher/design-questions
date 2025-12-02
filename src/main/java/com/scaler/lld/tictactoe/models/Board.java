@@ -8,13 +8,21 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter
 public class Board {
-    List<List<BoardCell>> cells = new ArrayList<>();
+    private int size;
+    private List<List<BoardCell>> cell = new ArrayList<>();
 
-    public Board(int rows, int columns) {
-        List<BoardCell> columnCells = Collections.nCopies(columns, new BoardCell());
-        List<List<BoardCell>> rowCells = Collections.nCopies(rows, columnCells);
-        this.cells = rowCells;
+    public Board(int size) {
+        this.size = size;
+        this.cell = initializeCells(size);
+    }
+
+    private List<List<BoardCell>> initializeCells(int size) {
+        // from int 3 ->    [], [], []
+        //                  [], [], []
+        //                  [], [], []
+
+        List<BoardCell> row = Collections.nCopies(size, new BoardCell());
+        return Collections.nCopies(size, row);
     }
 }
