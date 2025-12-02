@@ -1,15 +1,13 @@
 package com.scaler.lld.tictactoe.models;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.SuperBuilder;
+import lombok.AllArgsConstructor;
 
-@Getter
-@Setter
-@SuperBuilder(toBuilder = true)
+@AllArgsConstructor // it will create constructor
 public abstract class Player {
-   
-    private GameSymbol symbol;
+    private Symbol symbol;
 
-    public abstract BoardCell play(Board board);
+    /* lombok will create the constructor below
+    Player(Symbol symbol) {
+        this.symbol = symbol;
+    }*/
 }

@@ -5,12 +5,10 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 
 import com.scaler.lld.tictactoe.models.BoardCell;
-import com.scaler.lld.tictactoe.models.Bot;
 import com.scaler.lld.tictactoe.models.Game;
 import com.scaler.lld.tictactoe.models.GameSymbol;
 import com.scaler.lld.tictactoe.models.HumanPlayer;
 import com.scaler.lld.tictactoe.models.User;
-import com.scaler.lld.tictactoe.strategies.DefaultPlayingStrategy;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,11 +36,11 @@ public class TicTacToeTest {
                 .playingStrategy(new DefaultPlayingStrategy())
                 .build();
 
-        Game game = Game.getBuilder()
+        /*Game game = Game.getBuilder()
                 .withDimension(3, 3)
                 .withPlayer(human)
                 .withPlayer(bot)
-                .build();
+                .build();*/
 
         return game;
     }
