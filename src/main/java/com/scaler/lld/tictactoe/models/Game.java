@@ -1,5 +1,6 @@
 package com.scaler.lld.tictactoe.models;
 
+import com.scaler.lld.tictactoe.exception.InvalidMoveException;
 import com.scaler.lld.tictactoe.exception.InvalidPlayersExceptions;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,6 +18,7 @@ public class Game {
     private Board board;
     private List<Player> players = new ArrayList<>();
     private GameStatus status;
+    private int nextPlayerIndex = 0;
 
     private Game() {
     }
@@ -24,11 +26,49 @@ public class Game {
     public void start() {
     }
 
-    public void makeMove() {
+    public void makeMove() throws InvalidMoveException {
+        // 1. Get the next move
+        // 2. makeMove
+        // Bot - playing strategy
+        // Human - input - Scanner
+        // 3. Validate the move - Check if the cell is empty
+        BoardCell move = getNextMove();
+
+        // 4. Update the board
+        board.update(move);
+
+        // 5. Check for win/draw
+        if(checkWinner()){
+            status = GameStatus.FINISHED;
+        }else if(checkDraw()) {
+            status = GameStatus.DRAW;
+        }
+
+        // 6. Update next player index
+        nextPlayerIndex = (nextPlayerIndex + 1) % players.size();
     }
 
-    public Player checkWinner() {
-        return null;
+    private void validateMove(BoardCell move) throws InvalidMoveException {
+        if(board.isEmpty(move)) {
+            throw new InvalidMoveException(move.getRow(), move.getCol());
+        }
+    }
+
+    private BoardCell getNextMove() throws InvalidMoveException {
+        Player player =  players.get(nextPlayerIndex);
+        BoardCell move = player.makeMove(board);
+        validateMove(move);
+        return move;
+    }
+
+    private Player getNextPlayer() {
+        return players.get(nextPlayerIndex);
+    }
+
+    public boolean checkWinner() {
+        // this could be row,colum diagonal check or any other futuristic way
+        // todo: use winning strategy pattern
+        return false;
     }
 
     public boolean checkDraw() {
