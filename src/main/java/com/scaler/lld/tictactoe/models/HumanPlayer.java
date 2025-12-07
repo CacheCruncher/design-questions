@@ -2,7 +2,9 @@ package com.scaler.lld.tictactoe.models;
 
 import lombok.experimental.SuperBuilder;
 
-// Extrinsic state
+import java.util.Scanner;
+
+// FlyWeight Design Pattern : Extrinsic state
 @SuperBuilder
 public class HumanPlayer extends Player{
     private User user;
@@ -14,7 +16,14 @@ public class HumanPlayer extends Player{
 
     @Override
     BoardCell makeMove(Board board) {
-        return null;
+        System.out.println("Human Player's turn. Please make a move.");
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter row: ");
+        int row = scanner.nextInt();
+        System.out.println("Enter column: ");
+        int col = scanner.nextInt();
+
+        return new BoardCell(row, col, this.getSymbol());
     }
 }
 

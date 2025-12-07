@@ -2,6 +2,9 @@ package com.scaler.lld.tictactoe.models;
 
 import com.scaler.lld.tictactoe.exception.InvalidMoveException;
 import com.scaler.lld.tictactoe.exception.InvalidPlayersExceptions;
+import com.scaler.lld.tictactoe.strategies.winning.ColumnWinningStrategy;
+import com.scaler.lld.tictactoe.strategies.winning.RowWinningStrategy;
+import com.scaler.lld.tictactoe.strategies.winning.WinningStrategy;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -19,14 +22,19 @@ public class Game {
     private List<Player> players = new ArrayList<>();
     private GameStatus status;
     private int nextPlayerIndex = 0;
-
+    private List<WinningStrategy> winningStrategies = List.of(new RowWinningStrategy(), new ColumnWinningStrategy());
+    private Player winner;
     private Game() {
     }
 
-    public void start() {
+    public void init() {
+        // Initialize the game
+        // 1.Assign a random value to nextPlayerIndex
+        nextPlayerIndex = (int) (Math.random() * players.size());
+        status = GameStatus.IN_PROGRESS;
     }
 
-    public void makeMove() throws InvalidMoveException {
+    public void makeMove() {
         // 1. Get the next move
         // 2. makeMove
         // Bot - playing strategy
@@ -38,23 +46,26 @@ public class Game {
         board.update(move);
 
         // 5. Check for win/draw
-        if(checkWinner()){
+        if(checkWinner(move.getSymbol())){
             status = GameStatus.FINISHED;
+            winner = getNextPlayer();
+            return;
         }else if(checkDraw()) {
             status = GameStatus.DRAW;
+            return;
         }
 
         // 6. Update next player index
         nextPlayerIndex = (nextPlayerIndex + 1) % players.size();
     }
 
-    private void validateMove(BoardCell move) throws InvalidMoveException {
-        if(board.isEmpty(move)) {
+    private void validateMove(BoardCell move) {
+        if(!board.isEmpty(move.getRow(), move.getCol())) {
             throw new InvalidMoveException(move.getRow(), move.getCol());
         }
     }
 
-    private BoardCell getNextMove() throws InvalidMoveException {
+    private BoardCell getNextMove() {
         Player player =  players.get(nextPlayerIndex);
         BoardCell move = player.makeMove(board);
         validateMove(move);
@@ -65,9 +76,13 @@ public class Game {
         return players.get(nextPlayerIndex);
     }
 
-    public boolean checkWinner() {
-        // this could be row,colum diagonal check or any other futuristic way
-        // todo: use winning strategy pattern
+    public boolean checkWinner(Symbol symbol) {
+        for (WinningStrategy winningStrategy : winningStrategies) {
+            boolean isWinner = winningStrategy.checkWinner(board, symbol);
+            if (isWinner) {
+                return true;
+            }
+        }
         return false;
     }
 

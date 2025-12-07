@@ -16,6 +16,7 @@ public class BotPlayer extends Player{
 
     @Override
     BoardCell makeMove(Board board) {
-        return playingStrategy.makeMove(board);
+        BoardCell cell =  playingStrategy.makeMove(board);
+        return new BoardCell(cell.getRow(), cell.getCol(), this.getSymbol());
     }
 }
